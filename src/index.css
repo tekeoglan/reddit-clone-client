@@ -30,8 +30,13 @@ body {
 
 /* Set core body defaults */
 body {
+  background-color: #7dbcff99;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
+}
+
+body::selection {
+  background-color: #7dbcff99;
 }
 
 /* A elements that don't have a class get default styles */

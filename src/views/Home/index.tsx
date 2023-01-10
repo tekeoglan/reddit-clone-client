@@ -1,16 +1,14 @@
-import { UserLoginState } from "../../state/user/actions";
-import { useUserName } from "../../state/user/hooks";
+import Header from "../../components/Header";
+import tw from "twin.macro";
+
+const Wrapper = tw.div`block`;
 
 const Home = () => {
-  const user = {
-    userName: "hasan",
-    userAvatar: "http://",
-    loginState: UserLoginState.LOGGED_IN,
-  };
-  const [userName, setUserName] = useUserName();
-  setUserName(user.userName);
-
-  return <h1>{userName}</h1>;
+  return (
+    <Wrapper>
+      <Header />
+    </Wrapper>
+  );
 };
 
 export default Home;
