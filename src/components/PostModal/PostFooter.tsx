@@ -27,7 +27,6 @@ const CommentsContainer = tw.a`
 	font-bold
 	text-xs
 	break-normal
-
 `;
 
 const CommentsTitle = tw.span`
