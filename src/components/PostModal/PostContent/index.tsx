@@ -1,4 +1,5 @@
 import tw from "twin.macro";
+import TextContent from "./TextContent";
 import VideoContent from "./VideoContent";
 
 const Wrapper = tw.div`
@@ -8,7 +9,7 @@ const Wrapper = tw.div`
 const PostContent = () => {
   return (
     <Wrapper>
-      <VideoContent />
+      <TextContent />
     </Wrapper>
   );
 };
