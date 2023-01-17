@@ -1,21 +1,10 @@
 import tw from "twin.macro";
 import { validateYtLink } from "../../../utils";
+import MediaLayout from "./MediaLayout";
 
 interface EmbededYTProps {
   ytLink: string;
 }
-
-const Wrapper = tw.div`
-	relative
-	bg-white
-	max-h-[32rem]
-	pt-[56.25%]
-`;
-
-const Container = tw.div`
-	absolute
-	inset-0
-`;
 
 const Content = tw.div`
 	bg-black
@@ -41,13 +30,11 @@ const EmbededYT = ({ ytLink }: EmbededYTProps) => {
 
 const VideoContent = () => {
   return (
-    <Wrapper>
-      <Container>
-        <Content>
-          <EmbededYT ytLink="https://youtu.be/dQw4w9WgXcQ" />
-        </Content>
-      </Container>
-    </Wrapper>
+    <MediaLayout>
+      <Content>
+        <EmbededYT ytLink="https://youtu.be/dQw4w9WgXcQ" />
+      </Content>
+    </MediaLayout>
   );
 };
 

@@ -29,7 +29,7 @@ const Text = tw.p`
 
 const TextContent = () => {
   return (
-    <Wrapper>
+    <Wrapper href="#">
       <Container>
         <InnerContainer>
           <Text>
