@@ -2,6 +2,10 @@ import tw from "twin.macro";
 import LoginModalLayout from "./LoginModalLayout";
 import LoginForm from "./LoginForm";
 
+export interface LoginModalProps {
+  onClose: () => void;
+}
+
 const Wrapper = tw.div`
 	font-medium
 	text-xs
@@ -43,9 +47,9 @@ const Title = tw.h1`
 	normal-case
 `;
 
-const LoginModal = () => {
+const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
   return (
-    <LoginModalLayout>
+    <LoginModalLayout onClose={onClose}>
       <Wrapper>
         <Container>
           <InnerContainer>

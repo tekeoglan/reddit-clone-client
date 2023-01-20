@@ -1,7 +1,7 @@
 import tw from "twin.macro";
 import LoginModal from "../LoginModal";
-import { createPortal } from "react-dom";
 import { useState } from "react";
+import Portal from "../Portal";
 
 const Wrapper = tw.a`
 	py-2
@@ -20,19 +20,19 @@ const Wrapper = tw.a`
 
 const LoginButton = () => {
   const [modalActive, setModalActive] = useState(false);
-  const onClickHandler: React.MouseEventHandler = (e) => {
-    setModalActive(true);
-  };
+  const onClickHandler: React.MouseEventHandler = (e) => setModalActive(true);
+
   return (
-    <Wrapper role="button" onClick={onClickHandler}>
-      Log In
-      {modalActive
-        ? createPortal(
-            <LoginModal />,
-            document.querySelector("#root") || document.createElement("div")
-          )
-        : null}
-    </Wrapper>
+    <>
+      <Wrapper role="button" onClick={onClickHandler}>
+        Log In
+      </Wrapper>
+      {modalActive && (
+        <Portal>
+          <LoginModal onClose={() => setModalActive(false)} />
+        </Portal>
+      )}
+    </>
   );
 };
 

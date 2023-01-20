@@ -41,12 +41,14 @@ const CloseButton = tw.button`
 	text-inherit
 `;
 
-const LoginModalLayout: React.FC<PropsWithChildren> = (props) => {
+const LoginModalLayout: React.FC<PropsWithChildren<{ onClose: () => void }>> = (
+  props
+) => {
   return (
     <Wrapper>
       <Container>
         <Panel>{props.children}</Panel>
-        <CloseButton>
+        <CloseButton onClick={props.onClose}>
           <XIcon />
         </CloseButton>
       </Container>
