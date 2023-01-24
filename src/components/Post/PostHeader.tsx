@@ -1,5 +1,10 @@
 import tw from "twin.macro";
 
+export interface PostHeaderProps {
+  poster: string;
+  timeStamp: string;
+}
+
 const Wrapper = tw.div`
 	relative
 	flex
@@ -65,7 +70,7 @@ const TimeStamp = tw.span`
 	text-gray-500
 `;
 
-const PostHeader = () => {
+const PostHeader = ({ poster, timeStamp }: PostHeaderProps) => {
   return (
     <Wrapper>
       <AvatarWrapper>
@@ -76,8 +81,8 @@ const PostHeader = () => {
       <PropsContainer>
         <Props>
           <PosterContainer>
-            <PosterLink href="#">{"u/tekeoglan"}</PosterLink>
-            <TimeStamp>{"10 hours ago"}</TimeStamp>
+            <PosterLink href="#">{`u/${poster}`}</PosterLink>
+            <TimeStamp>{timeStamp}</TimeStamp>
           </PosterContainer>
         </Props>
       </PropsContainer>

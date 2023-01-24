@@ -1,5 +1,10 @@
 import tw from "twin.macro";
 
+export interface PostFooterProps {
+  link: string;
+  commentCounter: number;
+}
+
 const Wrapper = tw.div`
 	flex
 	items-center
@@ -38,13 +43,13 @@ const CommentIcon = () => (
   <i css={tw`[::before]:content-['\e0b9']`} className="material-icons"></i>
 );
 
-const PostFooter = () => {
+const PostFooter = ({ link, commentCounter }: PostFooterProps) => {
   return (
     <Wrapper>
       <Container>
-        <CommentsContainer>
+        <CommentsContainer href={link}>
           <CommentIcon />
-          <CommentsTitle>{"100 Comments"}</CommentsTitle>
+          <CommentsTitle>{`${commentCounter} Comments`}</CommentsTitle>
         </CommentsContainer>
       </Container>
     </Wrapper>

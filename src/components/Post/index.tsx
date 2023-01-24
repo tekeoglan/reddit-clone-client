@@ -1,9 +1,17 @@
 import tw from "twin.macro";
 import { UpVoteButton, DownVoteButton } from "./VoteButtons";
-import PostHeader from "./PostHeader";
-import PostTitle from "./PostTitle";
-import PostContent from "./PostContent";
-import PostFooter from "./PostFooter";
+import PostHeader, { PostHeaderProps } from "./PostHeader";
+import PostTitle, { PostTitleProps } from "./PostTitle";
+import PostContent, { PostContentProps } from "./PostContent";
+import PostFooter, { PostFooterProps } from "./PostFooter";
+
+export interface PostProps {
+  voteCounter: number;
+  headerProps: PostHeaderProps;
+  titleProps: PostTitleProps;
+  contentProps: PostContentProps;
+  footerProps: PostFooterProps;
+}
 
 const Wrapper = tw.div`
 	relative
@@ -53,24 +61,30 @@ const PostContainer = tw.div`
 	bg-white
 `;
 
-const PostModal = () => {
+const Post = ({
+  voteCounter,
+  headerProps,
+  titleProps,
+  contentProps,
+  footerProps,
+}: PostProps) => {
   return (
     <Wrapper>
       <VoteContainer>
         <VoteInnerContainer>
           <UpVoteButton />
-          <VoteCounter>{100}</VoteCounter>
+          <VoteCounter>{voteCounter}</VoteCounter>
           <DownVoteButton />
         </VoteInnerContainer>
       </VoteContainer>
       <PostContainer>
-        <PostHeader />
-        <PostTitle />
-        <PostContent />
-        <PostFooter />
+        <PostHeader {...headerProps} />
+        <PostTitle {...titleProps} />
+        <PostContent {...contentProps} />
+        <PostFooter {...footerProps} />
       </PostContainer>
     </Wrapper>
   );
 };
 
-export default PostModal;
+export default Post;

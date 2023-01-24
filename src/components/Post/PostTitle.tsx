@@ -1,5 +1,10 @@
 import tw from "twin.macro";
 
+export interface PostTitleProps {
+  link: string;
+  title: string;
+}
+
 const Wrapper = tw.div`
 	mx-2
 	text-gray-500
@@ -25,13 +30,13 @@ const TitleLink = tw.h3`
 	font-normal
 `;
 
-const PostTitle = () => {
+const PostTitle = ({ link, title }: PostTitleProps) => {
   return (
     <Wrapper>
       <TitleContainer>
-        <TitleLinkWrapper href="#">
+        <TitleLinkWrapper href={link}>
           <TitleLinkContainer>
-            <TitleLink>{"Title"}</TitleLink>
+            <TitleLink>{title}</TitleLink>
           </TitleLinkContainer>
         </TitleLinkWrapper>
       </TitleContainer>
