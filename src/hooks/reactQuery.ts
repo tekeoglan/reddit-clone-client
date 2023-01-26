@@ -18,7 +18,7 @@ export const fetcher = async <T>({
 }: QueryFunctionContext<QueryKeyType>): Promise<T> => {
   const [url, params] = queryKey;
   return axios
-    .get<T>(url, { params: { ...params, pageParam } })
+    .get<T>(url, { params: { ...params, cursor: pageParam } })
     .then((res) => res.data);
 };
 
@@ -33,9 +33,8 @@ export const useLoadMore = <T>(url: string | null, params?: object) => {
     ({ queryKey, pageParam = 0, meta }) =>
       fetcher({ queryKey, pageParam, meta }),
     {
-      getPreviousPageParam: (firstPage) => firstPage.previousId ?? false,
       getNextPageParam: (lastPage) => {
-        return lastPage.nextId ?? false;
+        return lastPage.next_cursor ?? undefined;
       },
     }
   );
