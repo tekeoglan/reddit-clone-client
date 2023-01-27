@@ -1,9 +1,10 @@
 import tw from "twin.macro";
 import Post from "../../components/Post";
 import { useGetPostList } from "../../api/posts";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { timeAgo } from "../../utils";
 import usePostContentData from "../../components/Post/hooks/usePostContentData";
+import { useInView } from "react-intersection-observer";
 import Spinner from "../../components/Spinner";
 
 const Wrapper = tw.section`
@@ -14,10 +15,18 @@ const Container = tw.div`
 	w-full
 `;
 
+const Observer = tw.div``;
+
 const PostsSection = () => {
   const { data, isLoading, error, hasNextPage, fetchNextPage } =
     useGetPostList();
 
+  const { ref, inView } = useInView({ threshold: 0 });
+
+  useEffect(() => {
+    if (!inView && !hasNextPage) return;
+    fetchNextPage();
+  }, [inView]);
 
   if (isLoading) return <Spinner />;
 
@@ -26,9 +35,9 @@ const PostsSection = () => {
   return (
     <Wrapper>
       <Container>
-        {data?.pages.map((page, i) => (
+        {data?.pages?.map((page, i) => (
           <Fragment key={i}>
-            {page.data.map((post) => (
+            {page.data?.map((post) => (
               <Post
                 key={post.post_id}
                 voteCounter={post.upvotes_count}
@@ -49,6 +58,7 @@ const PostsSection = () => {
             ))}
           </Fragment>
         ))}
+        <Observer ref={ref} />
       </Container>
     </Wrapper>
   );
