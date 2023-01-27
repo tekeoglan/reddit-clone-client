@@ -4,6 +4,7 @@ import { useGetPostList } from "../../api/posts";
 import { Fragment } from "react";
 import { timeAgo } from "../../utils";
 import usePostContentData from "../../components/Post/hooks/usePostContentData";
+import Spinner from "../../components/Spinner";
 
 const Wrapper = tw.section`
 	w-1/2
@@ -16,6 +17,9 @@ const Container = tw.div`
 const PostsSection = () => {
   const { data, isLoading, error, hasNextPage, fetchNextPage } =
     useGetPostList();
+
+
+  if (isLoading) return <Spinner />;
 
   if (error && !data) return null;
 
