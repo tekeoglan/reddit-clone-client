@@ -7,6 +7,7 @@ import Home from "./views/Home";
 import store from "./state";
 import { Provider } from "react-redux";
 import { QueryClientProvider, QueryClient } from "react-query";
+import PostPage from "./views/PostPage";
 
 const queryClient = new QueryClient();
 
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+  },
+  {
+    path: "/post/:id",
+    element: <PostPage />,
   },
 ]);
 
