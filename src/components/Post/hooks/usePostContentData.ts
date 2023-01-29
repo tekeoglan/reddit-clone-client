@@ -2,7 +2,7 @@ import { PostInterface } from "../../../interfaces/PostInterface";
 import {TextContentProps} from "../PostContent/TextContent";
 import {VideoContentProps} from "../PostContent/VideoContent";
 
-const usePostContentData = (post: PostInterface) => {
+const usePostContentData = <T>(post: T extends PostInterface ? T: never ) => {
   const content = post.text
     ? {
         type: "text",

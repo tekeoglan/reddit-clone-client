@@ -1,3 +1,5 @@
+import {CommentInterface, CommentWithUserInfoInterface} from "./CommentInterfac";
+
 export interface PostInterface {
   post_id: string;
   title: string;
@@ -15,4 +17,9 @@ export interface PostPageInterface {
   _count: {
     comments: number;
   };
+}
+
+export interface FullPostInterface {
+	users: {user_name: string}
+	comments: CommentInterface & CommentWithUserInfoInterface[]
 }
