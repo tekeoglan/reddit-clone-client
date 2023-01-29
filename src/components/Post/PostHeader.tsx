@@ -67,6 +67,7 @@ const PosterLink = tw.a`
 `;
 
 const TimeStamp = tw.span`
+	ml-1
 	text-gray-500
 `;
 
