@@ -1,4 +1,5 @@
 import tw from "twin.macro";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export interface PostFooterProps {
   link: string;
@@ -32,6 +33,7 @@ const CommentsContainer = tw.a`
 	font-bold
 	text-xs
 	break-normal
+	hover:cursor-pointer
 `;
 
 const CommentsTitle = tw.span`
@@ -44,10 +46,12 @@ const CommentIcon = () => (
 );
 
 const PostFooter = ({ link, commentCounter }: PostFooterProps) => {
+  const navigate = useNavigate();
+
   return (
     <Wrapper>
       <Container>
-        <CommentsContainer href={link}>
+        <CommentsContainer onMouseDown={() => navigate(link)}>
           <CommentIcon />
           <CommentsTitle>{`${commentCounter} Comments`}</CommentsTitle>
         </CommentsContainer>
