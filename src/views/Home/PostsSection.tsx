@@ -18,8 +18,14 @@ const Container = tw.div`
 const Observer = tw.div``;
 
 const PostsSection = () => {
-  const { data, isLoading, error, hasNextPage, fetchNextPage } =
-    useGetPostList();
+  const {
+    data,
+    isLoading,
+    error,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+  } = useGetPostList();
 
   const { ref, inView } = useInView({ threshold: 0 });
 
@@ -37,7 +43,7 @@ const PostsSection = () => {
       <Container>
         {data?.pages?.map((page, i) => (
           <Fragment key={i}>
-            {page.data?.map((post) => (
+            {page?.data?.map((post) => (
               <Post
                 key={post.post_id}
                 voteCounter={post.upvotes_count}
@@ -46,12 +52,12 @@ const PostsSection = () => {
                   timeStamp: timeAgo(post.time_stamp),
                 }}
                 titleProps={{
-                  link: `/u/post/${post.post_id}`,
+                  link: `/post/${post.post_id}`,
                   title: post.title,
                 }}
                 contentProps={usePostContentData(post)}
                 footerProps={{
-                  link: `/u/post/${post.post_id}`,
+                  link: `/post/${post.post_id}`,
                   commentCounter: post._count.comments,
                 }}
               />
@@ -59,6 +65,7 @@ const PostsSection = () => {
           </Fragment>
         ))}
         <Observer ref={ref} />
+        {isFetchingNextPage && <Spinner />}
       </Container>
     </Wrapper>
   );
