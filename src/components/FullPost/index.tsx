@@ -5,6 +5,8 @@ import { useGetPost } from "../../api/posts";
 import Spinner from "../Spinner";
 import { timeAgo } from "../../utils";
 import usePostContentData from "../Post/hooks/usePostContentData";
+import CreateComment from "./CreateComment";
+import CommentSection from "./CommentSection";
 
 const Wrapper = tw.div`
 	w-1/2
@@ -40,6 +42,8 @@ const FullPost = () => {
           commentCounter: data!.comments.length,
         }}
       />
+      <CreateComment />
+      <CommentSection />
     </Wrapper>
   );
 };

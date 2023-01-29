@@ -1,4 +1,4 @@
-import {CommentInterface, CommentWithUserInfoInterface} from "./CommentInterfac";
+import { CommentInterface, CommentWithUserInfoInterface } from "./";
 
 export interface PostInterface {
   post_id: string;
@@ -20,6 +20,6 @@ export interface PostPageInterface {
 }
 
 export interface FullPostInterface {
-	users: {user_name: string}
-	comments: CommentInterface & CommentWithUserInfoInterface[]
+  users: { user_name: string };
+  comments: (CommentInterface & CommentWithUserInfoInterface)[];
 }
