@@ -10,12 +10,14 @@ const Wrapper = tw.div`
 	pl-4
 	overflow-visible
 	w-full
+	border
+	rounded
+	border-gray-500
 `;
 
 const Container = tw.div`
 	flex
 	items-center
-	mt-4
 	pt-2
 	pl-2
 	bg-transparent
