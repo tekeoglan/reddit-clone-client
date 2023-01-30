@@ -20,7 +20,7 @@ const Wrapper = tw.a`
 
 const LoginButton = () => {
   const [modalActive, setModalActive] = useState(false);
-  const onClickHandler: React.MouseEventHandler = (e) => setModalActive(true);
+  const onClickHandler: React.MouseEventHandler = () => setModalActive(true);
 
   return (
     <>

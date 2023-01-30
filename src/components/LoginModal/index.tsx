@@ -1,10 +1,13 @@
 import tw from "twin.macro";
 import LoginModalLayout from "./LoginModalLayout";
 import LoginForm from "./LoginForm";
+import { MouseEventHandler, useState } from "react";
 
 export interface LoginModalProps {
   onClose: () => void;
 }
+
+export type FormType = "LogIn" | "SignUp";
 
 const Wrapper = tw.div`
 	font-medium
@@ -48,6 +51,14 @@ const Title = tw.h1`
 `;
 
 const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
+  const [formType, setFormType] = useState<FormType>("LogIn");
+
+  const onClickHandler = () => {
+    if (formType === "LogIn") return setFormType("SignUp");
+    if (formType === "SignUp") return setFormType("LogIn");
+    return;
+  };
+
   return (
     <LoginModalLayout onClose={onClose}>
       <Wrapper>
@@ -56,9 +67,12 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
             <ContentWrapper>
               <ContentContainer>
                 <TitleContainer>
-                  <Title>Log In</Title>
+                  <Title>{formType === "LogIn" ? "Log In" : "Sign Up"}</Title>
                 </TitleContainer>
-                <LoginForm />
+                <LoginForm
+                  onFormTypeChange={onClickHandler}
+                  formType={formType}
+                />
               </ContentContainer>
             </ContentWrapper>
           </InnerContainer>

@@ -1,4 +1,10 @@
 import tw from "twin.macro";
+import { FormType } from "./index";
+
+export interface LoginFormProps {
+  onFormTypeChange: () => void;
+  formType: FormType;
+}
 
 const Wrapper = tw.form`
 	w-[280px]
@@ -64,10 +70,14 @@ const BottomLink = tw.a`
 	text-blue-600
 	underline
 	capitalize
+	hover:cursor-pointer
 `;
 
-const LoginForm = () => {
-  return (
+const LoginForm: React.FC<LoginFormProps> = ({
+  onFormTypeChange,
+  formType,
+}) => {
+  return formType === "LogIn" ? (
     <Wrapper>
       <Field>
         <Input name="username" />
@@ -81,7 +91,30 @@ const LoginForm = () => {
         <Button type="submit">Log In</Button>
       </Field>
       <BottomText>
-        New to Reddit?<BottomLink href="#">Sign Up</BottomLink>
+        New to Reddit?
+        <BottomLink onClick={onFormTypeChange}>Sign Up</BottomLink>
+      </BottomText>
+    </Wrapper>
+  ) : (
+    <Wrapper>
+      <Field>
+        <Input name="email" />
+        <Label htmlFor="registerEmail">Email</Label>
+      </Field>
+      <Field>
+        <Input name="username" />
+        <Label htmlFor="registerUserName">User Name</Label>
+      </Field>
+      <Field>
+        <Input name="password" />
+        <Label htmlFor="registerPassword">Password</Label>
+      </Field>
+      <Field>
+        <Button type="submit">Sign Up</Button>
+      </Field>
+      <BottomText>
+        Already a redditor?
+        <BottomLink onClick={onFormTypeChange}>Log In</BottomLink>
       </BottomText>
     </Wrapper>
   );
