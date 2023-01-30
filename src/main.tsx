@@ -8,10 +8,15 @@ import store from "./state";
 import { Provider } from "react-redux";
 import { QueryClientProvider, QueryClient } from "react-query";
 import PostPage from "./views/PostPage";
+import NotFound from "./views/NotFound";
 
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
+  {
+    path: "*",
+    element: <NotFound />,
+  },
   {
     path: "/",
     element: <Home />,
