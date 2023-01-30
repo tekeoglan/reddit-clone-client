@@ -1,7 +1,7 @@
 import tw from "twin.macro";
 import LoginModalLayout from "./LoginModalLayout";
 import LoginForm from "./LoginForm";
-import { MouseEventHandler, useState } from "react";
+import { useState } from "react";
 
 export interface LoginModalProps {
   onClose: () => void;
