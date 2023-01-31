@@ -7,6 +7,8 @@ import {
   MouseEventHandler,
   useState,
 } from "react";
+import { useLogin, useRegister } from "../../api/auth";
+import Spinner from "../Spinner";
 
 const Wrapper = tw.form`
 	w-[280px]
@@ -75,10 +77,27 @@ const BottomLink = tw.a`
 	hover:cursor-pointer
 `;
 
-const ErroMessage = tw.span`
+const ValidationMessage = tw.span`
 	font-light
 	text-xs
 	text-red-600
+`;
+
+const ErrorMessage = tw.span`
+	inline-block
+	my-1
+	p-1
+	w-full
+	font-semibold
+	text-sm
+	text-white
+	text-center
+	rounded
+	bg-red-500
+`;
+
+const SuccessMessage = tw(ErrorMessage)`
+	bg-green-500
 `;
 
 export interface LoginFormProps {
@@ -170,13 +189,44 @@ const LoginForm: React.FC<LoginFormProps> = ({
     });
   };
 
+  const loginMutate = useLogin();
+  const registerMutate = useRegister();
+
   const onLogInSubmitHandler: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
-    if (!userNameState.success && !passwordState.success) return;
+    if (
+      !emailState.success &&
+      !passwordState.success &&
+      loginMutate.status !== "idle"
+    )
+      return;
 
     const formData = new FormData(e.target as HTMLFormElement);
-    const data = Object.fromEntries(formData);
+    const loginData = Object.fromEntries(formData);
+    loginMutate.mutate({
+      userEmail: loginData.email,
+      userPassword: loginData.password,
+    });
+  };
+
+  const onRegisterSubmitHandler: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+
+    if (
+      !userNameState.success &&
+      !passwordState.success &&
+      registerMutate.status !== "idle"
+    )
+      return;
+
+    const formData = new FormData(e.target as HTMLFormElement);
+    const registerData = Object.fromEntries(formData);
+    registerMutate.mutate({
+      userName: registerData.username,
+      userEmail: registerData.email,
+      userPassword: registerData.password,
+    });
   };
 
   const resetStates: MouseEventHandler<HTMLAnchorElement> = () => {
@@ -191,21 +241,28 @@ const LoginForm: React.FC<LoginFormProps> = ({
     });
   };
 
+  if (loginMutate.isLoading && registerMutate.isLoading) return <Spinner />;
+
   return formType === "LogIn" ? (
     <Wrapper onSubmit={onLogInSubmitHandler}>
+      {loginMutate.isSuccess ? (
+        <SuccessMessage>Successfully Loged In</SuccessMessage>
+      ) : loginMutate.isError ? (
+        <ErrorMessage>{loginMutate.error?.message}</ErrorMessage>
+      ) : null}
       <Field>
-        <Input name="username" onBlur={onUserNameBlurHandler} />
-        <Label htmlFor="loginUsername">User Name</Label>
+        <Input name="email" onBlur={onEmailBlurHandler} />
+        <Label htmlFor="loginEmail">Email</Label>
       </Field>
-      {!userNameState.success ? (
-        <ErroMessage>{userNameState.message}</ErroMessage>
+      {!emailState.success ? (
+        <ValidationMessage>{emailState.message}</ValidationMessage>
       ) : null}
       <Field>
         <Input type="password" name="password" onBlur={onPasswordBlurHandler} />
         <Label htmlFor="loginPassword">Password</Label>
       </Field>
       {!passwordState.success ? (
-        <ErroMessage>{passwordState.message}</ErroMessage>
+        <ValidationMessage>{passwordState.message}</ValidationMessage>
       ) : null}
       <Field>
         <Button type="submit">Log In</Button>
@@ -218,27 +275,32 @@ const LoginForm: React.FC<LoginFormProps> = ({
       </BottomText>
     </Wrapper>
   ) : (
-    <Wrapper>
+    <Wrapper onSubmit={onRegisterSubmitHandler}>
+      {registerMutate.isSuccess ? (
+        <SuccessMessage>Successfully Signed Up</SuccessMessage>
+      ) : registerMutate.isError ? (
+        <ErrorMessage>{registerMutate.error?.message}</ErrorMessage>
+      ) : null}
       <Field>
         <Input name="email" onBlur={onEmailBlurHandler} />
         <Label htmlFor="registerEmail">Email</Label>
       </Field>
       {!emailState.success ? (
-        <ErroMessage>{emailState.message}</ErroMessage>
+        <ValidationMessage>{emailState.message}</ValidationMessage>
       ) : null}
       <Field>
         <Input name="username" onBlur={onUserNameBlurHandler} />
         <Label htmlFor="registerUserName">User Name</Label>
       </Field>
       {!userNameState.success ? (
-        <ErroMessage>{userNameState.message}</ErroMessage>
+        <ValidationMessage>{userNameState.message}</ValidationMessage>
       ) : null}
       <Field>
         <Input type="password" name="password" onBlur={onPasswordBlurHandler} />
         <Label htmlFor="registerPassword">Password</Label>
       </Field>
       {!passwordState.success ? (
-        <ErroMessage>{passwordState.message}</ErroMessage>
+        <ValidationMessage>{passwordState.message}</ValidationMessage>
       ) : null}
       <Field>
         <Button type="submit">Sign Up</Button>
