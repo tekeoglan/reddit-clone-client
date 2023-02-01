@@ -1,7 +1,7 @@
 import { CommentInterface, CommentWithUserInfoInterface } from "./";
 
 export interface PostInterface {
-  post_id: string;
+  post_id: number;
   title: string;
   text: string;
   img_path: string;

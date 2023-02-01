@@ -1,10 +1,5 @@
 import { apiRoutes } from "../constants/routes";
-import {
-  useFetch,
-  useLoadMore,
-  useCreate,
-  useUpdate,
-} from "../hooks/reactQuery";
+import { useFetch, useLoadMore, useCreate } from "../hooks/reactQuery";
 import {
   FullPostInterface,
   PostInterface,
@@ -22,7 +17,7 @@ export const useGetPost = (id: string) =>
   useFetch<PostInterface & FullPostInterface>(apiRoutes.getPost(id));
 
 export const useUpvotePost = (id: string) =>
-  useUpdate(apiRoutes.upVotePost(id));
+  useCreate(apiRoutes.upVotePost(id));
 
 export const useDownVotePost = (id: string) =>
-  useUpdate(apiRoutes.downVotePost(id));
+  useCreate(apiRoutes.downVotePost(id));

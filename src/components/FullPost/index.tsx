@@ -27,6 +27,7 @@ const FullPost = () => {
   return (
     <Wrapper>
       <Post
+        id={parseInt(id || "0")}
         voteCounter={data!.upvotes_count}
         headerProps={{
           poster: data!.users.user_name || "",

@@ -7,8 +7,8 @@ type VoteButtonProps = {
 };
 
 const voteContent = {
-  up: tw`[::before]:content-['\e5d8']`,
-  down: tw`[::before]:content-['\e5db']`,
+  up: tw`hover:text-orange-600 [::before]:content-['\e5d8']`,
+  down: tw`hover:text-blue-600 [::before]:content-['\e5db']`,
 };
 
 const VoteButton: React.FC<VoteButtonProps> = ({ contentType, handler }) => {

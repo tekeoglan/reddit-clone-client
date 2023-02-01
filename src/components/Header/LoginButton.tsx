@@ -28,10 +28,10 @@ const LoginButton = () => {
 
   const onLogInHandler: React.MouseEventHandler = () => setModalActive(true);
   const onLogoutHandler: React.MouseEventHandler = () =>
-    logOutMutate.mutate({});
+    logOutMutate.mutate(null);
 
   useEffect(() => {
-    fetchUserMutate.mutate({});
+    fetchUserMutate.mutate(null);
   }, []);
 
   if (logOutMutate.isSuccess) return navigate(0);

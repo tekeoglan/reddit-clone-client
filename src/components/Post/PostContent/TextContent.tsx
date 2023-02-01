@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 
 export interface TextContentProps {
@@ -6,7 +7,9 @@ export interface TextContentProps {
   link: string;
 }
 
-const Wrapper = tw.a``;
+const Wrapper = tw.a`
+	hover:cursor-pointer
+`;
 
 const Container = tw.div`
 	max-h-64
@@ -34,8 +37,10 @@ const Text = tw.p`
 `;
 
 const TextContent = ({ text, link }: TextContentProps) => {
+  const navigate = useNavigate();
+
   return (
-    <Wrapper href={link}>
+    <Wrapper onMouseDown={() => navigate(link)}>
       <Container>
         <InnerContainer>
           <Text>{text}</Text>
