@@ -6,6 +6,7 @@ import PostContent, { PostContentProps } from "./PostContent";
 import PostFooter, { PostFooterProps } from "./PostFooter";
 
 export interface PostProps {
+  id: number;
   voteCounter: number;
   headerProps: PostHeaderProps;
   titleProps: PostTitleProps;
@@ -62,6 +63,7 @@ const PostContainer = tw.div`
 `;
 
 const Post = ({
+  id,
   voteCounter,
   headerProps,
   titleProps,
@@ -72,9 +74,9 @@ const Post = ({
     <Wrapper>
       <VoteContainer>
         <VoteInnerContainer>
-          <UpVoteButton />
+          <UpVoteButton postId={id} />
           <VoteCounter>{voteCounter}</VoteCounter>
-          <DownVoteButton />
+          <DownVoteButton postId={id} />
         </VoteInnerContainer>
       </VoteContainer>
       <PostContainer>

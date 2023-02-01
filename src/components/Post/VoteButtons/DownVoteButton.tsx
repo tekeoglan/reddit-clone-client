@@ -1,9 +1,13 @@
+import { useDownVotePost } from "../../../api/posts";
 import VoteButton from "./VoteButton";
 
-const onClickHandler: React.MouseEventHandler = () => {};
-
-const DownVoteButton = () => (
-  <VoteButton contentType="down" handler={onClickHandler} />
-);
+const DownVoteButton: React.FC<{ postId: number }> = ({ postId }) => {
+  const downvoteMutate = useDownVotePost(postId.toString());
+  const onClickHandler: React.MouseEventHandler = () => {
+    if (downvoteMutate.isLoading) return;
+    downvoteMutate.mutate({});
+  };
+  return <VoteButton contentType="down" handler={onClickHandler} />;
+};
 
 export default DownVoteButton;

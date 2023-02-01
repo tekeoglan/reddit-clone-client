@@ -6,6 +6,7 @@ import { timeAgo } from "../../utils";
 import usePostContentData from "../../components/Post/hooks/usePostContentData";
 import { useInView } from "react-intersection-observer";
 import Spinner from "../../components/Spinner";
+import { apiRoutes } from "../../constants/routes";
 
 const Wrapper = tw.section`
 	w-1/2
@@ -46,6 +47,7 @@ const PostsSection = () => {
             {page?.data?.map((post) => (
               <Post
                 key={post.post_id}
+                id={post.post_id}
                 voteCounter={post.upvotes_count}
                 headerProps={{
                   poster: post.users.user_name,
