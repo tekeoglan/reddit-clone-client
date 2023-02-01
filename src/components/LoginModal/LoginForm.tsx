@@ -9,6 +9,7 @@ import {
 } from "react";
 import { useLogin, useRegister } from "../../api/auth";
 import Spinner from "../Spinner";
+import { useNavigate } from "react-router-dom";
 
 const Wrapper = tw.form`
 	w-[280px]
@@ -123,6 +124,8 @@ const LoginForm: React.FC<LoginFormProps> = ({
   onFormTypeChange,
   formType,
 }) => {
+  const navigate = useNavigate();
+
   const [userNameState, setUserNameState] = useState<ParseState>({
     success: false,
     message: "",
@@ -242,6 +245,8 @@ const LoginForm: React.FC<LoginFormProps> = ({
   };
 
   if (loginMutate.isLoading && registerMutate.isLoading) return <Spinner />;
+
+  if (loginMutate.isSuccess || registerMutate.isSuccess) navigate(0);
 
   return formType === "LogIn" ? (
     <Wrapper onSubmit={onLogInSubmitHandler}>

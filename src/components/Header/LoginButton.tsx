@@ -1,7 +1,9 @@
 import tw from "twin.macro";
 import LoginModal from "../LoginModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Portal from "../Portal";
+import { useFetchUser, useLogOut } from "../../api/auth";
+import { useNavigate } from "react-router-dom";
 
 const Wrapper = tw.a`
 	py-2
@@ -20,11 +22,23 @@ const Wrapper = tw.a`
 
 const LoginButton = () => {
   const [modalActive, setModalActive] = useState(false);
-  const onClickHandler: React.MouseEventHandler = () => setModalActive(true);
+  const navigate = useNavigate();
+  const fetchUserMutate = useFetchUser();
+  const logOutMutate = useLogOut();
 
-  return (
+  const onLogInHandler: React.MouseEventHandler = () => setModalActive(true);
+  const onLogoutHandler: React.MouseEventHandler = () =>
+    logOutMutate.mutate({});
+
+  useEffect(() => {
+    fetchUserMutate.mutate({});
+  }, []);
+
+  if (logOutMutate.isSuccess) return navigate(0);
+
+  return !fetchUserMutate.isSuccess ? (
     <>
-      <Wrapper role="button" onClick={onClickHandler}>
+      <Wrapper role="button" onClick={onLogInHandler}>
         Log In
       </Wrapper>
       {modalActive && (
@@ -33,6 +47,10 @@ const LoginButton = () => {
         </Portal>
       )}
     </>
+  ) : (
+    <Wrapper role="button" onClick={onLogoutHandler}>
+      Log Out
+    </Wrapper>
   );
 };
 
