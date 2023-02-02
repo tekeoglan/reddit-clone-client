@@ -7,7 +7,7 @@ export interface CommentProps {
 
 const Wrapper = tw.div`
 	relative
-	pl-4
+	pl-1
 	overflow-visible
 	w-full
 	border
@@ -33,7 +33,6 @@ const InnerContainer = tw.div`
 const HeaderWrapper = tw.div`
 	flex
 	items-center
-	mb-2
 	min-h-[18px]
 `;
 

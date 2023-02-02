@@ -43,7 +43,7 @@ const FullPost = () => {
           commentCounter: data!.comments.length,
         }}
       />
-      <CreateComment />
+      <CreateComment postId={parseInt(id || "0")} />
       <CommentSection />
     </Wrapper>
   );

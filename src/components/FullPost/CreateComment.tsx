@@ -1,5 +1,9 @@
 import { ChangeEventHandler, MouseEventHandler, useState } from "react";
+import { useQueryClient } from "react-query";
 import tw from "twin.macro";
+import { useFetchUser } from "../../api/auth";
+import { useCreateComment } from "../../api/comments";
+import { apiRoutes } from "../../constants/routes";
 
 const Wrapper = tw.div`
 	relative
@@ -50,16 +54,30 @@ const CommentButton = tw.button`
 	rounded-full
 `;
 
-const CreateComment = () => {
+const CreateComment: React.FC<{ postId: number }> = ({ postId }) => {
   const [text, setText] = useState<string>("");
+  const queryClient = useQueryClient();
+  const { data, isSuccess: userSuccess } = useFetchUser();
+  const createCommentMutate = useCreateComment();
 
   const changeHandler: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     setText(() => e.target.value);
   };
 
-  const onSubmitHandler: MouseEventHandler<HTMLButtonElement> = () => {
-    if (!text) return;
-    console.log(text);
+  const onSubmitHandler: MouseEventHandler<HTMLButtonElement> = async () => {
+    if (!text || !userSuccess || createCommentMutate.isLoading) return;
+    await createCommentMutate.mutateAsync({
+      userId: data.user.user_id,
+      postId: postId,
+      text: text,
+    });
+
+    if (createCommentMutate.isSuccess) {
+      setText("");
+      queryClient.refetchQueries({
+        queryKey: apiRoutes.getPost(postId.toString()),
+      });
+    }
   };
 
   return (
@@ -69,6 +87,7 @@ const CreateComment = () => {
           placeholder="What are your thoughts?"
           spellCheck={true}
           onChange={changeHandler}
+          value={text}
         ></TextArea>
         <BottomWrapper>
           <CommentButton role="button" onClick={onSubmitHandler}>
