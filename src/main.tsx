@@ -10,7 +10,15 @@ import { QueryClientProvider, QueryClient } from "react-query";
 import PostPage from "./views/PostPage";
 import NotFound from "./views/NotFound";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 20 * 1000,
+      refetchOnWindowFocus: false,
+      retry: false,
+    },
+  },
+});
 
 const router = createBrowserRouter([
   {
