@@ -1,3 +1,5 @@
+import { MouseEventHandler } from "react";
+import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 
 export interface PostTitleProps {
@@ -18,6 +20,7 @@ const TitleContainer = tw.div`
 
 const TitleLinkWrapper = tw.a`
 	text-inherit
+	hover:cursor-pointer
 `;
 
 const TitleLinkContainer = tw.div`
@@ -31,10 +34,14 @@ const TitleLink = tw.h3`
 `;
 
 const PostTitle = ({ link, title }: PostTitleProps) => {
+  const navigate = useNavigate();
+  const linkHandler: MouseEventHandler<HTMLAnchorElement> = () =>
+    navigate(link);
+
   return (
     <Wrapper>
       <TitleContainer>
-        <TitleLinkWrapper href={link}>
+        <TitleLinkWrapper onMouseDown={linkHandler}>
           <TitleLinkContainer>
             <TitleLink>{title}</TitleLink>
           </TitleLinkContainer>

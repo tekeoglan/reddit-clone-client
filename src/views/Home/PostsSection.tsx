@@ -6,7 +6,8 @@ import { timeAgo } from "../../utils";
 import usePostContentData from "../../components/Post/hooks/usePostContentData";
 import { useInView } from "react-intersection-observer";
 import Spinner from "../../components/Spinner";
-import { apiRoutes } from "../../constants/routes";
+import CreatePost from "../../components/CreatePost";
+import { useFetchUser } from "../../api/auth";
 
 const Wrapper = tw.section`
 	w-1/2
@@ -19,6 +20,8 @@ const Container = tw.div`
 const Observer = tw.div``;
 
 const PostsSection = () => {
+  const { data: user } = useFetchUser();
+
   const {
     data,
     isLoading,
@@ -42,6 +45,7 @@ const PostsSection = () => {
   return (
     <Wrapper>
       <Container>
+        {user ? <CreatePost /> : null}
         {data?.pages?.map((page, i) => (
           <Fragment key={i}>
             {page?.data?.map((post) => (
