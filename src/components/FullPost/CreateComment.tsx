@@ -66,13 +66,13 @@ const CreateComment: React.FC<{ postId: number }> = ({ postId }) => {
 
   const onSubmitHandler: MouseEventHandler<HTMLButtonElement> = async () => {
     if (!text || !userSuccess || createCommentMutate.isLoading) return;
-    await createCommentMutate.mutateAsync({
+    const response = await createCommentMutate.mutateAsync({
       userId: data.user.user_id,
       postId: postId,
       text: text,
     });
 
-    if (createCommentMutate.isSuccess) {
+    if (response.status === 201) {
       setText("");
       queryClient.refetchQueries({
         queryKey: apiRoutes.getPost(postId.toString()),
