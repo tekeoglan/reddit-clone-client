@@ -1,6 +1,6 @@
 import tw from "twin.macro";
 import LoginModal from "../LoginModal";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Portal from "../Portal";
 import { useFetchUser, useLogOut } from "../../api/auth";
 import { useNavigate } from "react-router-dom";
@@ -23,20 +23,15 @@ const Wrapper = tw.a`
 const LoginButton = () => {
   const [modalActive, setModalActive] = useState(false);
   const navigate = useNavigate();
-  const fetchUserMutate = useFetchUser();
-  const logOutMutate = useLogOut();
+  const { data: user } = useFetchUser();
 
   const onLogInHandler: React.MouseEventHandler = () => setModalActive(true);
-  const onLogoutHandler: React.MouseEventHandler = () =>
-    logOutMutate.mutate(null);
+  const onLogoutHandler: React.MouseEventHandler = () => {
+    const { isSuccess } = useLogOut();
+    if (isSuccess) return navigate(0);
+  };
 
-  useEffect(() => {
-    fetchUserMutate.mutate(null);
-  }, []);
-
-  if (logOutMutate.isSuccess) return navigate(0);
-
-  return !fetchUserMutate.isSuccess ? (
+  return !user ? (
     <>
       <Wrapper role="button" onClick={onLogInHandler}>
         Log In

@@ -22,6 +22,15 @@ export const fetcher = async <T>({
     .then((res) => res.data);
 };
 
+export const poster = async <T>({
+  queryKey,
+}: QueryFunctionContext<QueryKeyType>): Promise<T> => {
+  const [url, params] = queryKey;
+  return axios
+    .post<T>(url, null, { params: { ...params }, withCredentials: true })
+    .then((res) => res.data);
+};
+
 export const useLoadMore = <T>(url: string | null, params?: object) => {
   const context = useInfiniteQuery<
     InfinitePagesInterface<T>,
@@ -64,6 +73,20 @@ export const useFetch = <T>(
   const context = useQuery<T, Error, T, QueryKeyType>(
     [url!, params],
     ({ queryKey, meta }) => fetcher({ queryKey, meta }),
+    { enabled: !!url, ...config }
+  );
+
+  return context;
+};
+
+export const usePost = <T>(
+  url: string,
+  params?: object,
+  config?: UseQueryOptions<T, Error, T, QueryKeyType>
+) => {
+  const context = useQuery<T, Error, T, QueryKeyType>(
+    [url!, params],
+    ({ queryKey, meta }) => poster({ queryKey, meta }),
     { enabled: !!url, ...config }
   );
 
