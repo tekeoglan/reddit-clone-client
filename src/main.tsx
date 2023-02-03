@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import { QueryClientProvider, QueryClient } from "react-query";
 import PostPage from "./views/PostPage";
 import NotFound from "./views/NotFound";
+import CreatePostFull from "./components/CreatePostFull";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+  },
+  {
+    path: "/submit",
+    element: <CreatePostFull />,
   },
   {
     path: "/post/:id",

@@ -1,3 +1,5 @@
+import { FocusEventHandler } from "react";
+import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 
 const Wrapper = tw.div`
@@ -22,12 +24,22 @@ const Input = tw.input`
 	border-solid
 	rounded
 	text-black
+	hover:(border border-blue-600 rounded)
 `;
 
 const CreatePost = () => {
+  const navigate = useNavigate();
+  const focusHandler: FocusEventHandler<HTMLInputElement> = () =>
+    navigate("/submit");
+
   return (
     <Wrapper>
-      <Input name="createPost" placeholder="Create Post" type="text"></Input>
+      <Input
+        name="createPost"
+        placeholder="Create Post"
+        type="text"
+        onFocus={focusHandler}
+      ></Input>
     </Wrapper>
   );
 };
