@@ -1,5 +1,6 @@
 import { useState } from "react";
 import tw, { styled } from "twin.macro";
+import { BasicLayout } from "../../views/Layout";
 import CreateLink from "./CreateLink";
 import CreateText from "./CreateText";
 
@@ -14,9 +15,6 @@ const Wrapper = tw.div`
 `;
 
 const Container = tw.div`
-	grow
-	shrink
-	basis-full
 	w-[640px]
 	max-w-[740px]
 	rounded
@@ -61,32 +59,6 @@ const LinkIcon = () => (
   <i className="material-icons" tw="mr-2 [::before]:content-['\e178']"></i>
 );
 
-const BottomWrapper = tw.div`
-	pb-4
-	px-4
-`;
-
-const BottomContainer = tw.div`
-	flex
-	flex-row-reverse
-	items-center
-	w-full
-	mt-2
-`;
-
-const PostButton = tw.button`
-	min-h-[32px]
-	min-w-[32px]
-	py-1
-	px-4
-	font-bold
-	text-sm
-	text-center
-	text-white
-	rounded-full
-	bg-gray-600
-`;
-
 const CreatePostFull = () => {
   const [contentType, setContentType] = useState<"text" | "link">("text");
 
@@ -94,7 +66,7 @@ const CreatePostFull = () => {
   const linkButtonHandler = () => setContentType("link");
 
   return (
-    <>
+    <BasicLayout>
       <Wrapper>
         <TopWrapper>
           <TopTitle>Create a post</TopTitle>
@@ -119,14 +91,9 @@ const CreatePostFull = () => {
             </HeaderContainer>
           </HeaderWrapper>
           {contentType === "text" ? <CreateText /> : <CreateLink />}
-          <BottomWrapper>
-            <BottomContainer>
-              <PostButton>Post</PostButton>
-            </BottomContainer>
-          </BottomWrapper>
         </Container>
       </Wrapper>
-    </>
+    </BasicLayout>
   );
 };
 

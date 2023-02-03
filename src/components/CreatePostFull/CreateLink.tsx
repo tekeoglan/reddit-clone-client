@@ -1,5 +1,12 @@
 import tw from "twin.macro";
+import { MouseEventHandler, ChangeEventHandler, useState } from "react";
+import ContentFooter from "./components/ContentFooter";
 import Title from "./components/Title";
+import ErrorMessage from "./components/ErrorMessage";
+import { validateYtLink } from "../../utils";
+import { useCreatePost } from "../../api/posts";
+import { useFetchUser } from "../../api/auth";
+import { useNavigate } from "react-router-dom";
 
 const Wrapper = tw.div`
 	m-4
@@ -26,11 +33,53 @@ const Url = tw.textarea`
 `;
 
 const CreateLink = () => {
+  const [title, setTitle] = useState("");
+  const [urlState, setUrlState] = useState({ url: "", error: "" });
+  const postMutate = useCreatePost();
+  const { data: userData, isSuccess: userFetched } = useFetchUser();
+  const navigate = useNavigate();
+
+  const titleChangeHandler: ChangeEventHandler<HTMLTextAreaElement> = (e) =>
+    setTitle(e.target.value);
+  const urlChangeHandler: ChangeEventHandler<HTMLTextAreaElement> = (e) =>
+    setUrlState((prev) => {
+      return { ...prev, url: e.target.value };
+    });
+  const mouseDownHandler: MouseEventHandler<HTMLButtonElement> = async () => {
+    if (!title || !urlState.url || postMutate.isLoading || !userFetched) return;
+    const [isValid, transformedLink] = validateYtLink(urlState.url);
+    if (!isValid) {
+      setUrlState((prev) => {
+        return { ...prev, error: "*invalid youtube link" };
+      });
+      return;
+    }
+    const response = await postMutate.mutateAsync({
+      userId: userData.user.user_id,
+      title: title,
+      ytPath: transformedLink,
+    });
+    if (response.status === 201) navigate("/");
+  };
+
   return (
-    <Wrapper>
-      <Title name="title" placeholder="Title" maxLength={240} rows={1} />
-      <Url placeholder="Youtube Link" rows={1} />
-    </Wrapper>
+    <>
+      <Wrapper>
+        {postMutate.isError ? (
+          <ErrorMessage message={postMutate.error.message} />
+        ) : null}
+        {urlState.error ? <ErrorMessage message={urlState.error} /> : null}
+        <Title
+          name="title"
+          placeholder="Title"
+          maxLength={240}
+          rows={1}
+          onChange={titleChangeHandler}
+        />
+        <Url placeholder="Youtube Link" rows={1} onChange={urlChangeHandler} />
+      </Wrapper>
+      <ContentFooter onMouseDown={mouseDownHandler} />
+    </>
   );
 };
 

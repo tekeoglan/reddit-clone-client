@@ -1,4 +1,10 @@
+import { MouseEventHandler, ChangeEventHandler, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
+import { useFetchUser } from "../../api/auth";
+import { useCreatePost } from "../../api/posts";
+import ContentFooter from "./components/ContentFooter";
+import ErrorMessage from "./components/ErrorMessage";
 import Title from "./components/Title";
 
 const Wrapper = tw.div`
@@ -31,13 +37,50 @@ const Text = tw.textarea`
 `;
 
 const CreateText = () => {
+  const [title, setTitle] = useState("");
+  const [text, setText] = useState("");
+  const postMutate = useCreatePost();
+  const { data: userData, isSuccess: userFetched } = useFetchUser();
+  const navigate = useNavigate();
+
+  const titleChangeHandler: ChangeEventHandler<HTMLTextAreaElement> = (e) =>
+    setTitle(e.target.value);
+  const textChangeHandler: ChangeEventHandler<HTMLTextAreaElement> = (e) =>
+    setText(e.target.value);
+  const mouseDownHandler: MouseEventHandler<HTMLButtonElement> = async () => {
+    if (!title || !text || postMutate.isLoading || !userFetched) return;
+    const response = await postMutate.mutateAsync({
+      userId: userData.user.user_id,
+      title: title,
+      text: text,
+    });
+    if (response.status === 201) navigate("/");
+  };
+
   return (
-    <Wrapper>
-      <Title name="title" placeholder="Title" maxLength={240} rows={1} />
-      <TextWrapper>
-        <Text name="text" placeholder="Text" spellCheck="true" />
-      </TextWrapper>
-    </Wrapper>
+    <>
+      <Wrapper>
+        {postMutate.isError ? (
+          <ErrorMessage message={postMutate.error.message} />
+        ) : null}
+        <Title
+          name="title"
+          placeholder="Title"
+          maxLength={240}
+          rows={1}
+          onChange={titleChangeHandler}
+        />
+        <TextWrapper>
+          <Text
+            name="text"
+            placeholder="Text"
+            spellCheck="true"
+            onChange={textChangeHandler}
+          />
+        </TextWrapper>
+      </Wrapper>
+      <ContentFooter onMouseDown={mouseDownHandler} />
+    </>
   );
 };
 
