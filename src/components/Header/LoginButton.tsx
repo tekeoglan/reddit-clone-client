@@ -21,14 +21,16 @@ const Wrapper = tw.a`
 `;
 
 const LoginButton = () => {
-  const [modalActive, setModalActive] = useState(false);
   const navigate = useNavigate();
   const { data: user } = useFetchUser();
+  const logOutMutate = useLogOut();
+  const [modalActive, setModalActive] = useState(false);
 
   const onLogInHandler: React.MouseEventHandler = () => setModalActive(true);
-  const onLogoutHandler: React.MouseEventHandler = () => {
-    const { isSuccess } = useLogOut();
-    if (isSuccess) return navigate(0);
+  const onLogoutHandler: React.MouseEventHandler = async () => {
+    if (logOutMutate.isLoading) return;
+    const response = await logOutMutate.mutateAsync(null);
+    if (response.status === 201) return navigate(0);
   };
 
   return !user ? (
