@@ -1,4 +1,8 @@
+import { MouseEventHandler } from "react";
+import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
+import { useFetchUser } from "../../api/auth";
+import Avatar from "../Svg/Avatar";
 
 const Wrapper = tw.div``;
 
@@ -21,26 +25,39 @@ const Container = tw.span`
 	flex
 	items-center
 	text-gray-400
-	[i::before]:content-['\e5cf']
 `;
 
-const UserIconWrapper = tw.span`
+const IconWrapper = tw.span`
 	flex
 	items-center
-	[i::before]:content-['\e7fd']
 `;
 
-const UserIcon = () => <i className="material-icons"></i>;
-const ExpandIcon = () => <i className="material-icons"></i>;
+const UserIcon = () => (
+  <i tw="[::before]:content-['\e7fd']" className="material-icons"></i>
+);
+const ExpandIcon = () => (
+  <i tw="[::before]:content-['\e5cf']" className="material-icons"></i>
+);
 
 const UserDrapDown = () => {
+  const { data: user } = useFetchUser();
+  const navigate = useNavigate();
+  const linkHandler: MouseEventHandler<HTMLSpanElement> = () =>
+    navigate("/user/profile");
+
   return (
     <Wrapper>
       <Button>
         <Container>
-          <UserIconWrapper>
-            <UserIcon />
-          </UserIconWrapper>
+          {!user ? (
+            <IconWrapper>
+              <UserIcon />
+            </IconWrapper>
+          ) : (
+            <IconWrapper onClick={linkHandler}>
+              <Avatar />
+            </IconWrapper>
+          )}
           <ExpandIcon />
         </Container>
       </Button>

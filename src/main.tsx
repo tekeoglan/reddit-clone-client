@@ -10,6 +10,7 @@ import { QueryClientProvider, QueryClient } from "react-query";
 import PostPage from "./views/PostPage";
 import NotFound from "./views/NotFound";
 import CreatePostFull from "./components/CreatePostFull";
+import Profile from "./views/Profile";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: "/submit",
     element: <CreatePostFull />,
+  },
+  {
+    path: "/user/profile",
+    element: <Profile />,
   },
   {
     path: "/post/:id",
