@@ -9,8 +9,14 @@ export const usePatchUser = (id: string) =>
 export const useDeleteUser = (id: string) =>
   useDelete<UserInterface>(apiRoutes.deleteUser(id));
 
-export const useGetUserOverview = (id: string) =>
-  useFetch<UserOverviewType>(apiRoutes.getUserOverview(id));
+export const useGetUserOverview = (id: string, isActive: boolean) =>
+  useFetch<UserOverviewType>(
+    apiRoutes.getUserOverview(id),
+    {},
+    {
+      enabled: isActive,
+    }
+  );
 
 export const useGetUserPosts = (id: string) =>
   useFetch<PostInterface[]>(apiRoutes.getUserPosts(id));

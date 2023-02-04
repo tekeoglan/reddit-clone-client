@@ -66,14 +66,14 @@ export const usePrefetch = <T>(url: string | null, params?: object) => {
 };
 
 export const useFetch = <T>(
-  url: string | null,
+  url: string,
   params?: object,
   config?: UseQueryOptions<T, Error, T, QueryKeyType>
 ) => {
   const context = useQuery<T, Error, T, QueryKeyType>(
     [url!, params],
     ({ queryKey, meta }) => fetcher({ queryKey, meta }),
-    { enabled: !!url, ...config }
+		config
   );
 
   return context;

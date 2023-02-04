@@ -7,7 +7,6 @@ export interface UserInterface {
   avatar_path: string;
 }
 
-export type UserOverviewType = (
-  | PostInterface
-  | (CommentInterface & { posts: PostInterface })
-)[];
+export type UserOverviewType = Array<
+  PostInterface & CommentInterface & { posts: PostInterface }
+>;
