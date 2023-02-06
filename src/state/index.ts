@@ -5,7 +5,7 @@ import user from "./user/reducer";
 const store = configureStore({
   reducer: user,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
-  devTools: process.env.VITE_NODE_ENV === "development",
+  devTools: process.env.NODE_ENV === "development",
 });
 
 export type AppDispatch = typeof store.dispatch;

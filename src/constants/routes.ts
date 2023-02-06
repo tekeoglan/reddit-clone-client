@@ -1,7 +1,7 @@
 const baseUrl =
-  process.env.VITE_NODE_ENV === "development"
+  process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
-    : process.env.VITE_SERVER_URL;
+    : "http://3.125.43.131:3000";
 
 export const apiRoutes = {
   login: `${baseUrl}/login`,
