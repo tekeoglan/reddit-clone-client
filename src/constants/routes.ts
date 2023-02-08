@@ -1,7 +1,7 @@
 const baseUrl =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
-    : "http://3.125.43.131:3000";
+    : "reddit-clone-server-production.up.railway.app";
 
 export const apiRoutes = {
   login: `${baseUrl}/login`,
